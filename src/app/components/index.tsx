@@ -1,3 +1,6 @@
+import styles from "./heroesList.module.scss";
+
+import { spidermanFont } from "@/fonts";
 import { Hero } from "@/interfaces/heroes";
 
 interface Props {
@@ -5,7 +8,13 @@ interface Props {
 }
 
 const HeroesList: React.FC<Props> = ({ heroes }) => {
-  return <h1>Personagens</h1>;
+  return (
+    <>
+      <h1 className={`${spidermanFont.className} ${styles.title}`}>
+        Personagens
+      </h1>
+    </>
+  );
 };
 
 export default HeroesList;
