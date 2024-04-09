@@ -109,6 +109,8 @@ const Carousel: React.FC<Props> = ({ heroes, activeId }) => {
     handleChangeActiveIndex(newPosition);
   };
 
+  if (!heroes || !activeId) return null;
+
   return (
     <div className={styles.container}>
       <div className={styles.carousel}>

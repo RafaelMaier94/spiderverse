@@ -23,7 +23,8 @@ interface Props {
   hero: Hero;
 }
 
-const HeroPicture: React.FC<Props> = ({ hero }) => {
+const HeroPicture: React.FC<Props> = ({ hero = null }) => {
+  if (!hero) return null;
   return <Image src={heroImages[hero.id]} alt={hero.id} priority />;
 };
 
