@@ -1,10 +1,10 @@
 import styles from "./page.module.scss";
+import { getHeroes } from "./services";
 
 import HeroesList from "@/app/components/HeroesList";
 
 const Home: React.FC = async () => {
-  // const heroes = await getHeroes();
-  const heroes = { data: [] };
+  const heroes = await getHeroes();
 
   return (
     <main className={styles.main}>
