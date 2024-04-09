@@ -25,6 +25,7 @@ const Carousel: React.FC<Props> = ({ heroes, activeId }) => {
   const [activeIndex, setActiveIndex] = useState<number>(
     heroes.findIndex((hero) => hero.id === activeId) - 1
   );
+  const [initialX, setInitialX] = useState<number>(0);
 
   const transitionAudio = useMemo(() => new Audio("/songs/transition.mp3"), []);
 
@@ -45,7 +46,7 @@ const Carousel: React.FC<Props> = ({ heroes, activeId }) => {
     if (!visibleItems) return;
     transitionAudio.play();
 
-    const voiceAudio = voicesAudio[visibleItems[enPosition.MIDDLE].id];
+    const voiceAudio = voicesAudio[visibleItems[enPosition.MIDDLE]?.id];
     if (!voiceAudio) return;
     voiceAudio.volume = 0.3;
     voiceAudio.play();
@@ -78,6 +79,18 @@ const Carousel: React.FC<Props> = ({ heroes, activeId }) => {
     return null;
   }
 
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
+    setInitialX(event.clientX);
+  };
+
+  const handleDragEnd = (event: React.DragEvent<HTMLDivElement>) => {
+    if (!initialX) return;
+    const finalX = event.clientX;
+    const diffX = finalX - initialX;
+    const newPosition = diffX > 0 ? -1 : 1;
+    handleChangeActiveIndex(newPosition);
+  };
+
   const handleChangeActiveIndex = (newDirection: number) => {
     setActiveIndex((prevActiveIndex) => prevActiveIndex + newDirection);
   };
@@ -87,7 +100,8 @@ const Carousel: React.FC<Props> = ({ heroes, activeId }) => {
       <div className={styles.carousel}>
         <div
           className={styles.wrapper}
-          onClick={() => handleChangeActiveIndex(1)}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
         >
           <AnimatePresence mode="popLayout">
             {visibleItems.map((item, index) => (
