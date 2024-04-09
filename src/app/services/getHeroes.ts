@@ -3,7 +3,7 @@ import { Hero } from "@/interfaces/heroes";
 export const getHeroes = async (): Promise<{ data: Hero[] }> => {
   const baseUrl =
     process.env.NODE_ENV === "production"
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      ? `https://spiderverse-git-main-rafaelrmaiers-projects.vercel.app/`
       : "http://localhost:3000";
 
   const response = await fetch(`${baseUrl}/api/heroes`);
