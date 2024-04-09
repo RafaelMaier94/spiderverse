@@ -16,6 +16,7 @@ interface Props {
 }
 
 const HeroDetails: React.FC<Props> = ({ data }) => {
+  if (!data) return;
   const { id, name, universe, details } = data;
   return (
     <div className={quicksand.className}>

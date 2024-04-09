@@ -1,9 +1,10 @@
 @import "./variables.scss";
 
 :root {
-  background: red;
   height: 100vh;
-  &::before {
+  transition: background 1s ease-in-out;
+  background-size: cover;
+  &:not(.hero-page)::before {
     content: "";
     background: $background;
     height: 100%;
