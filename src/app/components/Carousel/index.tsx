@@ -85,14 +85,28 @@ const Carousel: React.FC<Props> = ({ heroes, activeId }) => {
 
   const handleDragEnd = (event: React.DragEvent<HTMLDivElement>) => {
     if (!initialX) return;
-    const finalX = event.clientX;
-    const diffX = finalX - initialX;
-    const newPosition = diffX > 0 ? -1 : 1;
-    handleChangeActiveIndex(newPosition);
+
+    handleChangeDragTouch(event.clientX);
   };
 
   const handleChangeActiveIndex = (newDirection: number) => {
     setActiveIndex((prevActiveIndex) => prevActiveIndex + newDirection);
+  };
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    setInitialX(event.touches[0].clientX);
+  };
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (!initialX) return;
+    handleChangeDragTouch(event.changedTouches[0].clientX);
+  };
+
+  const handleChangeDragTouch = (clientX: number) => {
+    if (!initialX) return;
+    const finalX = clientX;
+    const diffX = finalX - initialX;
+    const newPosition = diffX > 0 ? -1 : 1;
+    handleChangeActiveIndex(newPosition);
   };
 
   return (
@@ -102,6 +116,8 @@ const Carousel: React.FC<Props> = ({ heroes, activeId }) => {
           className={styles.wrapper}
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <AnimatePresence mode="popLayout">
             {visibleItems.map((item, index) => (
